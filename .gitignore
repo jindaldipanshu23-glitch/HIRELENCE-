@@ -1,0 +1,39 @@
+# Virtual Environment
+venv/
+.venv/
+env/
+ENV/
+backend/venv/
+
+# Python cache & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+backend/__pycache__/
+backend/*/__pycache__/
+
+# Node / Frontend
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.production
+
+# Database & Uploads
+*.sqlite
+*.sqlite3
+*.db
+backend/hirelens.db
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Environment variables
+.env
+backend/.env
+frontend/.env
+
+# OS / Editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
