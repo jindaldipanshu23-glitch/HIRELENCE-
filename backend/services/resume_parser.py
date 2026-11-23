@@ -1,7 +1,16 @@
 import re
-import fitz  # PyMuPDF
-from docx import Document
 from typing import Dict, List
+from docx import Document
+
+try:
+    from pypdf import PdfReader
+except ImportError:
+    PdfReader = None
+
+try:
+    import fitz  # PyMuPDF
+except ImportError:
+    fitz = None
 
 # Large skill keywords list
 SKILLS_LIST = [
@@ -33,15 +42,31 @@ SKILLS_LIST = [
 
 
 def extract_text_from_pdf(file_path: str) -> str:
-    """Extract text from PDF using PyMuPDF"""
+    """Extract text from PDF using pypdf or PyMuPDF"""
     text = ""
-    try:
-        doc = fitz.open(file_path)
-        for page in doc:
-            text += page.get_text()
-        doc.close()
-    except Exception as e:
-        print(f"PDF extraction error: {e}")
+    # Try pypdf first (pure Python, fast, zero C++ build issues)
+    if PdfReader is not None:
+        try:
+            reader = PdfReader(file_path)
+            for page in reader.pages:
+                extracted = page.extract_text()
+                if extracted:
+                    text += extracted + "\n"
+            if text.strip():
+                return text
+        except Exception as e:
+            print(f"pypdf extraction error: {e}")
+
+    # Fallback to PyMuPDF if available
+    if fitz is not None:
+        try:
+            doc = fitz.open(file_path)
+            for page in doc:
+                text += page.get_text() + "\n"
+            doc.close()
+        except Exception as e:
+            print(f"PyMuPDF extraction error: {e}")
+
     return text
 
 
