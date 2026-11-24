@@ -18,7 +18,7 @@ export default function Register() {
       localStorage.setItem("role", res.data.role);
       localStorage.setItem("name", res.data.name);
       toast.success(`Welcome, ${res.data.name}! 🎉`);
-      navigate(res.data.role === "recruiter" ? "/dashboard" : "/candidate");
+      navigate("/dashboard");
     } catch (err) {
       toast.error(err.response?.data?.detail || "Registration failed");
     } finally {
@@ -35,23 +35,11 @@ export default function Register() {
             <Brain className="text-blue-400 w-10 h-10" />
             <span className="text-3xl font-bold text-white">HireLens <span className="text-blue-400">AI</span></span>
           </div>
-          <p className="text-blue-300 text-sm">Create your account</p>
+          <p className="text-blue-300 text-sm">Create Recruiter Account</p>
         </div>
 
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-xl border border-white/20">
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Role Toggle */}
-            <div className="flex rounded-xl overflow-hidden border border-white/20">
-              {["recruiter", "candidate"].map((r) => (
-                <button key={r} type="button"
-                  onClick={() => setForm({ ...form, role: r })}
-                  className={`flex-1 py-2.5 text-sm font-semibold capitalize transition-all
-                    ${form.role === r ? "bg-blue-500 text-white" : "text-blue-200 hover:bg-white/10"}`}>
-                  {r === "recruiter" ? "👔 Recruiter" : "👤 Candidate"}
-                </button>
-              ))}
-            </div>
-
             <div className="relative">
               <User className="absolute left-3 top-3.5 w-4 h-4 text-blue-300" />
               <input type="text" placeholder="Full Name" required

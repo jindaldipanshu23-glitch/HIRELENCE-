@@ -22,7 +22,7 @@ export default function Login() {
       localStorage.setItem("role", res.data.role);
       localStorage.setItem("name", res.data.name);
       toast.success(`Welcome back, ${res.data.name}!`);
-      navigate(res.data.role === "recruiter" ? "/dashboard" : "/candidate");
+      navigate("/dashboard");
     } catch (err) {
       toast.error(err.response?.data?.detail || "Login failed");
     } finally {

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api";
 import toast from "react-hot-toast";
-import { Brain, Plus, Briefcase, Users, LogOut, ChevronRight, Trash2, Repeat } from "lucide-react";
+import { Brain, Plus, Briefcase, Users, LogOut, ChevronRight, Trash2 } from "lucide-react";
 
 export default function RecruiterDashboard() {
   const navigate = useNavigate();
@@ -25,18 +25,6 @@ export default function RecruiterDashboard() {
       const res = await API.get("/jobs/");
       setJobs(res.data);
     } catch { toast.error("Failed to load jobs"); }
-  };
-
-  const handleSwitchRole = async () => {
-    try {
-      const res = await API.post("/auth/switch-role", {});
-      localStorage.setItem("token", res.data.access_token);
-      localStorage.setItem("role", res.data.role);
-      toast.success(`Switched to ${res.data.role} Mode! 🚀`);
-      window.location.href = res.data.role === "recruiter" ? "/dashboard" : "/candidate";
-    } catch (err) {
-      toast.error(err.response?.data?.detail || "Failed to switch role");
-    }
   };
 
   const createJob = async (e) => {
@@ -74,14 +62,9 @@ export default function RecruiterDashboard() {
         <div className="flex items-center gap-2">
           <Brain className="text-blue-400 w-7 h-7" />
           <span className="text-xl font-bold">HireLens <span className="text-blue-400">AI</span></span>
-          <span className="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded-full ml-2">Recruiter Mode</span>
         </div>
         <div className="flex items-center gap-4">
           <span className="text-gray-400 text-sm">👋 {name}</span>
-          <button onClick={handleSwitchRole}
-            className="flex items-center gap-1.5 bg-gray-800 hover:bg-gray-700 text-blue-400 hover:text-blue-300 text-xs font-semibold px-3 py-1.5 rounded-lg border border-gray-700 transition">
-            <Repeat className="w-3.5 h-3.5" /> Switch to Candidate
-          </button>
           <button onClick={logout} className="flex items-center gap-1 text-gray-400 hover:text-red-400 text-sm transition">
             <LogOut className="w-4 h-4" /> Logout
           </button>

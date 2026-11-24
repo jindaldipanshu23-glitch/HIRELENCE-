@@ -3,7 +3,6 @@ import { Toaster } from "react-hot-toast";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
-import CandidateDashboard from "./pages/CandidateDashboard";
 import JobDetail from "./pages/JobDetail";
 
 function PrivateRoute({ children }) {
@@ -21,8 +20,9 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<PrivateRoute><RecruiterDashboard /></PrivateRoute>} />
-        <Route path="/candidate" element={<PrivateRoute><CandidateDashboard /></PrivateRoute>} />
+        <Route path="/candidate" element={<Navigate to="/dashboard" />} />
         <Route path="/job/:jobId" element={<PrivateRoute><JobDetail /></PrivateRoute>} />
+        <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </BrowserRouter>
   );
